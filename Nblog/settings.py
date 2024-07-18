@@ -11,33 +11,32 @@ https://docs.djangoproject.com/en/4.2/ref/settings/
 """
 
 from pathlib import Path
+import os
+import dj_database_url
+
+# Check if env.py exists and import environment variables from it
+if os.path.isfile('env.py'):
+    import env
 
 # Build paths inside the project like this: BASE_DIR / 'subdir'.
 BASE_DIR = Path(__file__).resolve().parent.parent
-
 
 # Quick-start development settings - unsuitable for production
 # See https://docs.djangoproject.com/en/4.2/howto/deployment/checklist/
 
 # SECURITY WARNING: keep the secret key used in production secret!
-SECRET_KEY = 'django-insecure-7b@8)55*kmxtzx--x#y)gfga62w7xb3l_u1t_k(%6g%wr1+!te'
+SECRET_KEY = os.environ.get("SECRET_KEY", 'django-insecure-7b@8)55*kmxtzx--x#y)gfga62w7xb3l_u1t_k(%6g%wr1+!te')
 
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = False
-
-# settings.py
-
+# Allowed hosts
 ALLOWED_HOSTS = [
     '8000-abdirizak0-ublog-ao3h9co4zjj.ws-eu115.gitpod.io',
     'ourblog.herokuapp.com',
     'localhost',
 ]
 
-
-
-
 # Application definition
-
 INSTALLED_APPS = [
     'django.contrib.admin',
     'django.contrib.auth',
@@ -63,7 +62,7 @@ ROOT_URLCONF = 'Nblog.urls'
 TEMPLATES = [
     {
         'BACKEND': 'django.template.backends.django.DjangoTemplates',
-        'DIRS': [],
+        'DIRS': [BASE_DIR / 'templates'],  # Directory for templates
         'APP_DIRS': True,
         'OPTIONS': {
             'context_processors': [
@@ -78,21 +77,21 @@ TEMPLATES = [
 
 WSGI_APPLICATION = 'Nblog.wsgi.application'
 
+# Comment out the local SQLite3 database configuration
+# DATABASES = {
+#     'default': {
+#         'ENGINE': 'django.db.backends.sqlite3',
+#         'NAME': BASE_DIR / 'db.sqlite3',
+#     }
+# }
 
-# Database
-# https://docs.djangoproject.com/en/4.2/ref/settings/#databases
-
+# Connect to the PostgreSQL database using DATABASE_URL
 DATABASES = {
-    'default': {
-        'ENGINE': 'django.db.backends.sqlite3',
-        'NAME': BASE_DIR / 'db.sqlite3',
-    }
+    'default': dj_database_url.parse(os.environ.get("DATABASE_URL"), conn_max_age=600)
 }
-
 
 # Password validation
 # https://docs.djangoproject.com/en/4.2/ref/settings/#auth-password-validators
-
 AUTH_PASSWORD_VALIDATORS = [
     {
         'NAME': 'django.contrib.auth.password_validation.UserAttributeSimilarityValidator',
@@ -108,25 +107,18 @@ AUTH_PASSWORD_VALIDATORS = [
     },
 ]
 
-
 # Internationalization
 # https://docs.djangoproject.com/en/4.2/topics/i18n/
-
 LANGUAGE_CODE = 'en-us'
-
 TIME_ZONE = 'UTC'
-
 USE_I18N = True
-
+USE_L10N = True
 USE_TZ = True
-
 
 # Static files (CSS, JavaScript, Images)
 # https://docs.djangoproject.com/en/4.2/howto/static-files/
-
-STATIC_URL = 'static/'
+STATIC_URL = '/static/'
 
 # Default primary key field type
 # https://docs.djangoproject.com/en/4.2/ref/settings/#default-auto-field
-
 DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
