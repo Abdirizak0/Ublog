@@ -28,8 +28,11 @@ DEBUG = False
 # settings.py
 
 ALLOWED_HOSTS = [
-     'ourblog.herokuapp.com' 'localhost'
+    '8000-abdirizak0-ublog-ao3h9co4zjj.ws-eu115.gitpod.io',
+    'ourblog.herokuapp.com',
+    'localhost',
 ]
+
 
 
 
